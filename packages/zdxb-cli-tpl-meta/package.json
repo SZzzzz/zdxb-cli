@@ -1,6 +1,9 @@
 {
   "name": "@zdxb/cli-tpl-meta",
   "version": "0.0.1",
+  "bin": {
+    "make-template": "bin/make-template.js"
+  },
   "dependencies": {
     "chalk": "^2.4.2",
     "execa": "^2.0.3",

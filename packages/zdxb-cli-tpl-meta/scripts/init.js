@@ -5,6 +5,7 @@ const { execSync } = require('child_process');
 const chalk = require('chalk');
 const execa = require('execa');
 const merge = require('lodash.merge');
+const copy = require('./copy');
 
 module.exports = async (appPath) => {
   const ownPath = path.dirname(require.resolve(path.join(__dirname, '..', 'package.json')));
@@ -71,4 +72,7 @@ function tryGitInit(appPath) {
   }
 }
 
-async function subQuestions(appPath) {}
+async function subQuestions(appPath) {
+  await copy(appPath)
+}
+
