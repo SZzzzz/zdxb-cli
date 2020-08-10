@@ -5,22 +5,27 @@ import { spawn } from 'child_process';
 
 export function getPrompts(): Question[] {
   const q: Question[] = configList.reduce<Question[]>((p, c) => {
-    return p.concat(c.subQuestions)
+    return p.concat(c.subQuestions);
   }, []);
   q.unshift({
     name: 'projectTemplate',
     type: 'list',
     message: '请选择一个项目模板',
-    choices: configList.map(t => ({
+    choices: configList.map((t) => ({
       name: t.desc,
-      value: t.pkg
-    }))
+      value: t.pkg,
+    })),
   });
   return q;
 }
 
-
-export function install(root: string, useYarn: boolean, dependencies: string[], verbose: boolean, isOnline: boolean) {
+export function install(
+  root: string,
+  useYarn: boolean,
+  dependencies: string[],
+  verbose: boolean,
+  isOnline: boolean
+) {
   return new Promise((resolve, reject) => {
     let command: string;
     let args: string[];
@@ -47,13 +52,7 @@ export function install(root: string, useYarn: boolean, dependencies: string[], 
       }
     } else {
       command = 'npm';
-      args = [
-        'install',
-        '--save',
-        '--save-exact',
-        '--loglevel',
-        'error',
-      ].concat(dependencies);
+      args = ['install', '--save', '--save-exact', '--loglevel', 'error'].concat(dependencies);
     }
 
     if (verbose) {
@@ -61,7 +60,7 @@ export function install(root: string, useYarn: boolean, dependencies: string[], 
     }
 
     const child = spawn(command, args, { stdio: 'inherit' });
-    child.on('close', code => {
+    child.on('close', (code) => {
       if (code !== 0) {
         reject({
           command: `${command} ${args.join(' ')}`,

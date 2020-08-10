@@ -32,7 +32,7 @@ export default class Installer {
   async initProject() {
     type InitFunction = (appPath: string) => void;
     const init: InitFunction = loadModule(`${this.projectTemplate}/scripts/init`, this.targetDir);
-    await init(this.targetDir);
+    init(this.targetDir);
   }
 
   private yarnAdd(depList: string[], isDev: boolean) {
@@ -51,9 +51,9 @@ export default class Installer {
           reject({
             command: `${command} ${args.join(' ')}`,
           });
-          return;
+        } else {
+          resolve();
         }
-        resolve();
       });
     });
   }

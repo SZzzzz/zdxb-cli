@@ -35,7 +35,7 @@ async function create(projectName: string, options: Options) {
   }
 
   if (fs.existsSync(targetDir)) {
-    const { ok } = await inquirer.prompt([
+    const { ok } = await inquirer.prompt<{ ok: boolean }>([
       {
         name: 'ok',
         type: 'confirm',
