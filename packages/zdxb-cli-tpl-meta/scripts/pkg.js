@@ -6,6 +6,12 @@ module.exports = {
     "inquirer": "^6.5.0",
     "lodash.merge": "^4.6.2",
   },
+  "devDependencies": {
+    "eslint": "^7.5.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "prettier": "^2.0.5"
+  },
   "scripts": {
     "make-template": "make-template"
   }
