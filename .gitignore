@@ -9,4 +9,4 @@ temp
 .version
 .versions
 .changelog
-packages/**/lib/
+packages/**/lib/**/*.ts
