@@ -8,7 +8,7 @@ export function getPrompts(): Question[] {
     return p.concat(c.subQuestions);
   }, []);
   q.unshift({
-    name: 'projectTemplate',
+    name: 'pkg',
     type: 'list',
     message: '请选择一个项目模板',
     choices: configList.map((t) => ({
@@ -25,7 +25,7 @@ export function install(
   dependencies: string[],
   verbose: boolean,
   isOnline: boolean
-) {
+): Promise<void> {
   return new Promise((resolve, reject) => {
     let command: string;
     let args: string[];

@@ -3,29 +3,29 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var config_1 = require("../config");
-var chalk_1 = __importDefault(require("chalk"));
-var child_process_1 = require("child_process");
+const config_1 = require("../config");
+const chalk_1 = __importDefault(require("chalk"));
+const child_process_1 = require("child_process");
 function getPrompts() {
-    var q = config_1.configList.reduce(function (p, c) {
+    const q = config_1.configList.reduce((p, c) => {
         return p.concat(c.subQuestions);
     }, []);
     q.unshift({
-        name: 'projectTemplate',
+        name: 'pkg',
         type: 'list',
         message: '请选择一个项目模板',
-        choices: config_1.configList.map(function (t) { return ({
+        choices: config_1.configList.map((t) => ({
             name: t.desc,
-            value: t.pkg
-        }); })
+            value: t.pkg,
+        })),
     });
     return q;
 }
 exports.getPrompts = getPrompts;
 function install(root, useYarn, dependencies, verbose, isOnline) {
-    return new Promise(function (resolve, reject) {
-        var command;
-        var args;
+    return new Promise((resolve, reject) => {
+        let command;
+        let args;
         if (useYarn) {
             command = 'yarnpkg';
             args = ['add', '--exact'];
@@ -48,22 +48,16 @@ function install(root, useYarn, dependencies, verbose, isOnline) {
         }
         else {
             command = 'npm';
-            args = [
-                'install',
-                '--save',
-                '--save-exact',
-                '--loglevel',
-                'error',
-            ].concat(dependencies);
+            args = ['install', '--save', '--save-exact', '--loglevel', 'error'].concat(dependencies);
         }
         if (verbose) {
             args.push('--verbose');
         }
-        var child = child_process_1.spawn(command, args, { stdio: 'inherit' });
-        child.on('close', function (code) {
+        const child = child_process_1.spawn(command, args, { stdio: 'inherit' });
+        child.on('close', (code) => {
             if (code !== 0) {
                 reject({
-                    command: command + " " + args.join(' '),
+                    command: `${command} ${args.join(' ')}`,
                 });
                 return;
             }

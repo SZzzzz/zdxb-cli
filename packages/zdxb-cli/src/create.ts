@@ -6,14 +6,10 @@ import validateProjectName from 'validate-npm-package-name';
 import { getPrompts } from './util';
 import Installer from './Installer';
 
-export type Answers = {
-  projectTemplate: string;
-  components: string[];
-  from?: string | false;
-};
 type Options = {
-  [index: string]: string;
+  tpl?: string;
 };
+
 async function create(projectName: string, options: Options) {
   const cwd: string = process.cwd();
   const inCurrent: boolean = projectName === '.';
@@ -49,9 +45,9 @@ async function create(projectName: string, options: Options) {
     }
   }
 
-  const answers = await inquirer.prompt<Answers>(getPrompts());
+  const pkg = options.tpl || (await inquirer.prompt<{ pkg: string }>(getPrompts())).pkg;
   fs.mkdirpSync(projectName);
-  const installer = new Installer(targetDir, answers);
+  const installer = new Installer(targetDir, { pkg });
   await installer.installTpl();
   await installer.initProject();
 }
