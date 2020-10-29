@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 const semver = require('semver');
 
 function resolveFallback(request: string, options) {
