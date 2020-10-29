@@ -1,6 +1,7 @@
 const fs = require('fs-extra');
 const path = require('path');
 const inquirer = require('inquirer');
+const walk = require('./walk');
 
 async function copy(appPath) {
   const questions = [
@@ -30,15 +31,16 @@ async function copy(appPath) {
     }
   ];
   const answers = await inquirer.prompt(questions);
+  const fromDir = answers.fromPath;
+  const tplPath = path.resolve(appPath, 'template');
   if (Array.isArray(answers.needToCopy) && answers.needToCopy.length > 0) {
-    const fromDir = answers.fromPath;
     answers.needToCopy.forEach(name => {
       const from = path.resolve(fromDir, name);
-      if (name.startsWith('.')) {
-        name = `_dot_${name.slice(1)}`;
-      }
-      const to = path.resolve(appPath, "template", name);
+      const to = path.resolve(tplPath, name);
       fs.copySync(from, to);
+    });
+    walk(tplPath, pathname => {
+      fs.renameSync(pathname, pathname + '.tpl');
     });
     console.log("文件复制完成");
   }

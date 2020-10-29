@@ -4,6 +4,3 @@ node_modules/
 .DS_Store
 .vscode
 *.swp
-*.lock
-*.js
-!.autod.conf.js
