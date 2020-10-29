@@ -10,4 +10,4 @@ module.exports = function walk(dir, cb) {
       cb(pathname);
     }
   });
-}
+};

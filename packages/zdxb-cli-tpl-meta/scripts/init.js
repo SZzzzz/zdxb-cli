@@ -16,22 +16,18 @@ module.exports = async (appPath) => {
   // 复制模板
   const templatePath = path.join(ownPath, 'template');
   if (fs.existsSync(templatePath)) {
-    walk(templatePath, pathname => {
+    walk(templatePath, (pathname) => {
       const relativePath = path.relative(templatePath, pathname);
       if (relativePath === 'package.json.tpl') {
         const tplPkg = JSON.parse(fs.readFileSync(pathname));
         delete tplPkg.name;
         delete tplPkg.version;
         merge(appPackage, tplPkg);
-        fs.writeFileSync(
-          path.join(appPackagePath),
-          JSON.stringify(appPackage, null, 2) + os.EOL
-        );
+        fs.writeFileSync(path.join(appPackagePath), JSON.stringify(appPackage, null, 2) + os.EOL);
       } else {
         const targetPath = path.join(appPath, relativePath);
         fs.copySync(pathname, targetPath.endsWith('.tpl') ? targetPath.slice(0, -4) : targetPath);
       }
-
     });
   } else {
     console.error(`找不到模板目录: ${chalk.green(templatePath)}`);
@@ -75,6 +71,5 @@ function tryGitInit(appPath) {
 }
 
 async function subQuestions(appPath) {
-  await copy(appPath)
+  await copy(appPath);
 }
-
